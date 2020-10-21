@@ -1,12 +1,20 @@
 from tkinter import *
 import backendwork
 
+
+# to view anything in the listbox you need to insert it into the listbox
+
+
+
 def get_selected_row(event):
+    # declaring a global variable within a function, which will get the indices
     global selected_row
-    index = list.curselection()[0]
-    selected_row = list.get(index)
+    # now we declare a variable which will get the indexes of our list
+    # since we will select items based on their ids which is at 0 index so ....
+    index = list.curselection()[0]  # to get id
+    selected_row = list.get(index)   # to get all information of the selected row, ie date , exercise etc
     e1.delete(0,END)
-    e1.insert(END,selected_row[1])
+    e1.insert(END,selected_row[1])   # 1 here for date as 0 is for index ie of no use
     e2.delete(0,END)
     e2.insert(END,selected_row[2])
     e3.delete(0,END)
@@ -19,21 +27,30 @@ def get_selected_row(event):
     e6.insert(END,selected_row[6])
 
 def delete_command():
-    backendwork.delete(selected_row[0])
+    backendwork.delete(selected_row[0]) # as selected row as all info so [0] is the id which we need for delete
 
 def view_command():
+    # emtpying the list as we will fill it
     list.delete(0,END)
+    # inorder to view everyting in the database you need to call the view function created
+    # and the other thing is to view everything in the list box , and only way is to insert every row into list
     for row in backendwork.view():
         list.insert(END,row)
 
 def search_command():
     list.delete(0,END)
+    # you got all rows from the search then you deploy for loop to insert all searched rows into empty table
     for row in backendwork.search(date_text.get(),earning_text.get(),exercise_text.get(),study_text.get(),diet_text.get(),python_text.get()):
         list.insert(END,row)
 
+
+# now as anything is entered into Entry we need to call the textvariable and get everything entered
+# you will add data to both database and list as well
 def add_command():
     backendwork.insert(date_text.get(),earning_text.get(),exercise_text.get(),study_text.get(),diet_text.get(),python_text.get())
 
+    # now remeber always whenever you update list you delete it uptill END and then from END you insert items
+    # insert same into list
     list.delete(0,END)
     list.insert(END,(date_text.get(),earning_text.get(),exercise_text.get(),study_text.get(),diet_text.get(),python_text.get()))
 
@@ -56,7 +73,7 @@ l6.grid(row=2,column=2)
 
 date_text = StringVar()
 # to add the data into the text field next to label , we use entry
-e1 = Entry(win, textvariable=date_text)
+e1 = Entry(win, textvariable=date_text) # the things that user enters can be stored in a parameter as textvariable
 e1.grid(row=0,column=1)
 
 earning_text = StringVar()
